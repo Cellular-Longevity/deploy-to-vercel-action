@@ -190,8 +190,6 @@ const run = async () => {
 					? `\n| 🔍 Inspect	| <${deploymentURLs.inspector}> |`
 					: ''
 
-				commentMD += `\n${Github.OWN_COMMENT_ID_STRING}`
-
 				const comment = await github.createComment(commentMD)
 				core.info(`Comment created: ${comment.html_url}`)
 			}
