@@ -31605,6 +31605,10 @@ const {
 	GITHUB_DEPLOYMENT_ENV,
 } = __nccwpck_require__(5192)
 
+// Identify our comment(s) via this string so we can delete
+const OWN_COMMENT_ID_STRING =
+	'<!-- deploy comment from deploy-to-vercel-action, DO NOT EDIT THIS LINE -->'
+
 const init = () => {
 	const client = github.getOctokit(GITHUB_TOKEN).rest
 
@@ -31653,7 +31657,7 @@ const init = () => {
 		if (data.length < 1) return
 
 		const comment = data.find((comment) =>
-			comment.body?.includes('This pull request has been deployed to Vercel.')
+			comment.body?.includes(OWN_COMMENT_ID_STRING)
 		)
 		if (comment) {
 			await client.issues.deleteComment({
@@ -31718,8 +31722,8 @@ const init = () => {
 
 module.exports = {
 	init,
+	OWN_COMMENT_ID_STRING,
 }
-
 
 /***/ }),
 
@@ -32253,6 +32257,8 @@ const run = async () => {
 					? `\n| 🔍 Inspect	| <${deploymentURLs.inspector}> |`
 					: ''
 
+				commentMD += `\n${Github.OWN_COMMENT_ID_STRING}`
+
 				const comment = await github.createComment(commentMD)
 				core.info(`Comment created: ${comment.html_url}`)
 			}
@@ -32306,7 +32312,6 @@ const run = async () => {
 }
 
 run()
-
 module.exports = __webpack_exports__;
 /******/ })()
 ;
