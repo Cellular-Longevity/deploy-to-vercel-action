@@ -12,10 +12,6 @@ const {
 	GITHUB_DEPLOYMENT_ENV,
 } = require('./config')
 
-// Identify our comment(s) via this string so we can delete
-const OWN_COMMENT_ID_STRING =
-	'<!-- deploy comment from deploy-to-vercel-action, DO NOT EDIT THIS LINE -->'
-
 const init = () => {
 	const client = github.getOctokit(GITHUB_TOKEN).rest
 
@@ -64,7 +60,7 @@ const init = () => {
 		if (data.length < 1) return
 
 		const comment = data.find((comment) =>
-			comment.body?.includes(OWN_COMMENT_ID_STRING)
+			comment.body?.includes('has been deployed to Vercel ▲')
 		)
 		if (comment) {
 			await client.issues.deleteComment({
@@ -129,5 +125,4 @@ const init = () => {
 
 module.exports = {
 	init,
-	OWN_COMMENT_ID_STRING,
 }
