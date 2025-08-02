@@ -136,6 +136,25 @@ const init = () => {
 	}
 }
 
+const getCustomEnvironment = async (slug) => {
+	// API Reference: https://vercel.com/docs/rest-api/endpoints/projects#get-a-project-environment-by-slug-and-target
+	// https://api.vercel.com/v9/projects/{idOrName}/custom-environments/{environmentSlugOrId}
+	const endpoint = `/v9/projects/${VERCEL_PROJECT_ID}/custom-environments/${slug}`
+	const url = new URL(endpoint, VercelAPIBase)
+	core.debug(`getEnvironmentId() request: ${endpoint}`)
+
+	const envOptions = structuredClone(options)
+	envOptions.method = 'get'
+
+	const res = await fetch(url, envOptions)
+
+	const data = await res.json()
+
+	core.debug(`getCustomEnvironment() response: ${JSON.stringify(data)}`)
+
+	return data
+}
+
 const setEnvironment = async (key, value) => {
 	// API Reference: https://vercel.com/docs/rest-api/endpoints/projects#create-one-or-more-environment-variables
 	const endpoint = `/v10/projects/${VERCEL_PROJECT_ID}/env`
@@ -148,11 +167,7 @@ const setEnvironment = async (key, value) => {
 
 	url.search = params.toString()
 
-	let target = PRODUCTION ? 'production' : 'preview'
-
-	if (CUSTOM_TARGET) {
-		target = CUSTOM_TARGET
-	}
+	const target = PRODUCTION ? 'production' : 'preview'
 
 	const body = {
 		key: key,
@@ -161,6 +176,11 @@ const setEnvironment = async (key, value) => {
 		type: 'plain',
 		comment: `Set by deploy-to-vercel GitHub Action (${SHA.substring(0, 7)})`,
 	}
+
+	if (CUSTOM_TARGET) {
+		const customEnvironment = await getCustomEnvironment(CUSTOM_TARGET)
+		body.customEnvironmentIds = [customEnvironment.id]
+	}	
 
 	if (
 		GITHUB_DEPLOYMENT_ENV.trim() &&

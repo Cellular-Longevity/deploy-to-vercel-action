@@ -1,6 +1,6 @@
 {
   "name": "deploy-to-vercel-action",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "Deploy your project to Vercel using GitHub Actions. Supports PR previews and GitHub deployments.",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -15,7 +15,13 @@
     "type": "git",
     "url": "git+https://github.com/mountainash/deploy-to-vercel-action.git"
   },
-  "keywords": ["vercel", "deploy", "deployment", "github action", "upload"],
+  "keywords": [
+    "vercel",
+    "deploy",
+    "deployment",
+    "github action",
+    "upload"
+  ],
   "author": "Maximilian Schiller <schiller@mxis.ch>",
   "contributors": [
     {
