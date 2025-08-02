@@ -137,10 +137,17 @@ const init = () => {
 }
 
 const getCustomEnvironment = async (slug) => {
-	// API Reference: https://vercel.com/docs/rest-api/endpoints/projects#get-a-project-environment-by-slug-and-target
+	// API Reference: https://vercel.com/docs/rest-api/reference/endpoints/environment/retrieve-a-custom-environment
 	// https://api.vercel.com/v9/projects/{idOrName}/custom-environments/{environmentSlugOrId}
 	const endpoint = `/v9/projects/${VERCEL_PROJECT_ID}/custom-environments/${slug}`
+
 	const url = new URL(endpoint, VercelAPIBase)
+	const params = new URLSearchParams(url.search.slice(1))
+
+	params.set('teamId', VERCEL_SCOPE)
+
+	url.search = params.toString()
+
 	core.debug(`getEnvironmentId() request: ${endpoint}`)
 
 	const envOptions = structuredClone(options)
