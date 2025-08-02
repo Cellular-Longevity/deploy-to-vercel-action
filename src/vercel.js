@@ -4,6 +4,7 @@ const { execCmd, removeSchema } = require('./helpers')
 const {
 	VERCEL_TOKEN,
 	PRODUCTION,
+	CUSTOM_TARGET,
 	VERCEL_SCOPE: importedVercelScope,
 	VERCEL_ORG_ID,
 	VERCEL_PROJECT_ID,
@@ -44,8 +45,12 @@ const init = () => {
 
 		commandArguments.push(`--scope=${VERCEL_SCOPE}`)
 
-		if (PRODUCTION) {
-			commandArguments.push('--prod')
+		if (CUSTOM_TARGET) {
+			commandArguments.push(`--target=${CUSTOM_TARGET}`)
+		} else {
+			if (PRODUCTION) {
+				commandArguments.push('--prod')
+			}
 		}
 
 		if (PREBUILT) {
@@ -143,10 +148,16 @@ const setEnvironment = async (key, value) => {
 
 	url.search = params.toString()
 
+	let target = PRODUCTION ? 'production' : 'preview'
+
+	if (CUSTOM_TARGET) {
+		target = CUSTOM_TARGET
+	}
+
 	const body = {
 		key: key,
 		value: value,
-		target: [PRODUCTION ? 'production' : 'preview'],
+		target: [target],
 		type: 'plain',
 		comment: `Set by deploy-to-vercel GitHub Action (${SHA.substring(0, 7)})`,
 	}

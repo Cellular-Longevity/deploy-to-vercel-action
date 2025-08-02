@@ -11,6 +11,7 @@ const context = {
 	VERCEL_ORG_ID: core.getInput('VERCEL_ORG_ID', { required: true }),
 	VERCEL_PROJECT_ID: core.getInput('VERCEL_PROJECT_ID', { required: true }),
 	PRODUCTION: core.getBooleanInput('PRODUCTION', { required: false }),
+	CUSTOM_TARGET: core.getInput('CUSTOM_TARGET', { required: false }),
 	GITHUB_DEPLOYMENT: core.getBooleanInput('GITHUB_DEPLOYMENT', {
 		required: false,
 	}),

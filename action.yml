@@ -24,6 +24,10 @@ inputs:
       Create a production deployment (default: true, false for PR deployments).
     required: false
     default: 'true'
+  CUSTOM_TARGET:
+    description: |
+      Custom target for the Vercel deployment. e.g. "staging"
+    required: false
   PREBUILT:
     description: |
       Deploy a prebuilt Vercel Project (default: false).

@@ -117,6 +117,7 @@ Here are all the inputs [deploy-to-vercel-action](https://github.com/mountainash
 | `GITHUB_DEPLOYMENT` | Create a deployment on GitHub | **No** | true |
 | `GITHUB_DEPLOYMENT_ENV` | Custom environment for the GitHub deployment | **No** | `Production` or `Preview` |
 | `PRODUCTION` | Create a production deployment on Vercel and GitHub | **No** | true (false for PR deployments) |
+| `CUSTOM_TARGET` | Custom target for the Vercel deployment. e.g. "staging" | **No** | N/A |
 | `DELETE_EXISTING_COMMENT` | Delete existing PR comment when redeploying PR | **No** | true |
 | `CREATE_COMMENT` | Create PR comment when deploying | **No** | true |
 | `ATTACH_COMMIT_METADATA` | Attach metadata about the commit to the Vercel deployment | **No** | true |
